@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, FlatList, StatusBar, TextInput, TouchableOpacity } from 'react-native';
-
-import { MOCK_PRODUCTS } from '../data/mockProducts';
 import { ProductCard } from '../components/ProductCard';
+import { useStockStore } from '../store/useStockStore';
 
 export const HomeScreen = ({ navigation }: any) => {
   const [searchQuery, setSearchQuery] = useState('');
+  // On récupère les produits du store global !
+  const products = useStockStore((state) => state.products); 
 
-  const filteredProducts = MOCK_PRODUCTS.filter((product) => {
+  const filteredProducts = products.filter((product) => {
     const nameMatch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
     const refMatch = product.reference.toLowerCase().includes(searchQuery.toLowerCase());
     return nameMatch || refMatch;
@@ -35,7 +36,7 @@ export const HomeScreen = ({ navigation }: any) => {
         keyExtractor={(item) => item.id}
         keyboardShouldPersistTaps="handled"
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('ProductDetail', { product: item })}>
+          <TouchableOpacity onPress={() => navigation.navigate('ProductDetail', { productId: item.id })}>
             <ProductCard product={item} />
           </TouchableOpacity>
         )}
