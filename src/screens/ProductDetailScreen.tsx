@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native'; 
 import { useStockStore } from '../store/useStockStore';
 
 export const ProductDetailScreen = ({ route, navigation }: any) => {
-  const { productId } = route.params; // On passe l'ID maintenant pour rester synchronisé !
+
+  const { productId } = route.params;
+
+  useEffect(() => {
+    navigation.setOptions({
+        headerRight: () => (
+        <TouchableOpacity 
+            onPress={() => navigation.navigate('ProductForm', { productId })}
+            style={{ marginRight: 10, padding: 8 }}
+        >
+            <Text style={{ color: '#2563EB', fontWeight: 'bold', fontSize: 16 }}>Modifier 📝</Text>
+        </TouchableOpacity>
+        ),
+    });
+  }, [navigation, productId]);
   
   // On récupère le produit en temps réel du store
   const product = useStockStore((state) => state.products.find(p => p.id === productId));

@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, StatusBar, TextInput, TouchableOpacity } from 'react-native';
 import { ProductCard } from '../components/ProductCard';
 import { useStockStore } from '../store/useStockStore';
 
 export const HomeScreen = ({ navigation }: any) => {
+
+  useEffect(() => {
+    navigation.setOptions({
+        headerRight: () => (
+        <TouchableOpacity 
+            onPress={() => navigation.navigate('ProductForm')}
+            style={{ marginRight: 10, padding: 8 }}
+        >
+            <Text style={{ color: '#2563EB', fontWeight: 'bold', fontSize: 16 }}>➕ Ajouter</Text>
+        </TouchableOpacity>
+        ),
+    });
+  }, [navigation]);
+  
   const [searchQuery, setSearchQuery] = useState('');
   // On récupère les produits du store global !
   const products = useStockStore((state) => state.products); 

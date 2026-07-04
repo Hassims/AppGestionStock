@@ -2,9 +2,9 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
 import { HomeScreen } from './src/screens/HomeScreen';
 import { ProductDetailScreen } from './src/screens/ProductDetailScreen';
+import { ProductFormScreen } from './src/screens/ProductFormScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +32,13 @@ export default function App() {
             name="ProductDetail" 
             component={ProductDetailScreen} 
             options={{ title: 'Détail du Produit', headerShown: true }} 
+          />
+          <Stack.Screen 
+            name="ProductForm" 
+            component={ProductFormScreen} 
+            options={({ route }: any) => ({ 
+              title: route.params?.productId ? 'Modifier le Produit 📝' : 'Ajouter un Produit ➕' 
+            })} 
           />
         </Stack.Navigator>
       </NavigationContainer>
